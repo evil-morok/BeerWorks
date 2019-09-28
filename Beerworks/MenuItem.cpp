@@ -9,6 +9,13 @@ void MenuItem::event(uint16_t event_type)
 {
 }
 
+void MenuItem::setNext(MenuItem *next)
+{
+	this->next = next;
+	next->previous = this;
+}
+
+
 MenuItem::~MenuItem()
 {
 }

@@ -10,7 +10,9 @@ typedef enum {
 	EVT_BTN_LF,
 	EVT_BTN_RI,
 	EVT_BTN_OK,
-	EVT_BTN_CL
+	EVT_BTN_CL,
+	EVT_BTN_OK_LO,
+	EVT_BTN_CL_LO
 }event_type_t;
 
 typedef struct display_t {

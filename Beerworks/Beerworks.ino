@@ -5,6 +5,8 @@
 */
 
 
+#include <YetAnotherPcInt.h>
+#include <PinChangeInterruptBoards.h>
 #include "hw.h"
 #include "Environment.h"
 
