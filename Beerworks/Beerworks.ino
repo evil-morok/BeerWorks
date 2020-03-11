@@ -5,6 +5,9 @@
 */
 
 
+#include <EEPROM.h>
+#include <RTCx.h>
+#include <OneWire.h>
 #include <YetAnotherPcInt.h>
 #include <PinChangeInterruptBoards.h>
 #include "hw.h"

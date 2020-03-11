@@ -20,5 +20,7 @@ public:
 	typedef Pin<8, false> BtnOk;
 	typedef Pin<9, false> BtnCancel;
 
+	typedef Pin<7> Ds18x20;
+
 	typedef Pin<10> Relay;
 };

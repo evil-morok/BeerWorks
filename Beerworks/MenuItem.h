@@ -6,18 +6,34 @@ class MenuItem :
 	public Control
 {
 public:
-	MenuItem(char * disp, const char * n, const char * f) : Control(disp, 34), name(n), format(f), Display((display_t *)disp) {};
-	~MenuItem();
+	MenuItem(char * disp, const char * n, const char * f, Control * MenuControl) :
+		Control((display_t *)disp), name(n), format(f) {
+		this->parent = MenuControl;
+	};
+	~MenuItem() {}
 	MenuItem *previous = NULL;
 	MenuItem *next = NULL;
-	MenuItem *parent = NULL;
+	MenuItem *parentMenu = NULL;
 	MenuItem *child = NULL;
-	virtual void render();
-	virtual void event(uint16_t event_type);
-	void setNext(MenuItem *next);
-private:
+
+	virtual void render() {
+		snprintf(&(Display->Lines.Line0[0]), 16, name);
+		snprintf(&(Display->Lines.Line1[0]), 16, format);
+	}
+
+	virtual void event(uint16_t event_type) {
+
+	};
+
+	void setNext(MenuItem *next)
+	{
+		this->next = next;
+		next->previous = this;
+	}
+
+protected:
 	const char * name;
 	const char * format;
-	display_t * Display;
+	
 };
 

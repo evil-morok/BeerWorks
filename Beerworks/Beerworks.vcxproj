@@ -63,10 +63,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Beerworks;C:\Users\evil_\Documents\Arduino\libraries\Yet_Another_Arduino_PcInt_Library\src;C:\Users\evil_\Documents\Arduino\libraries\LiquidCrystal_I2C;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Users\evil_\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\mega;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr\;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Beerworks;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\EEPROM\src;C:\Users\evil_\Documents\Arduino\libraries\RTCx\src;C:\Users\evil_\Documents\Arduino\libraries\OneWire;C:\Users\evil_\Documents\Arduino\libraries\Yet_Another_Arduino_PcInt_Library\src;C:\Users\evil_\Documents\Arduino\libraries\LiquidCrystal_I2C;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\mega;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.Beerworks.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <PreprocessorDefinitions>__AVR_ATmega2560__;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_MEGA2560;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__AVR_atmega2560__;__AVR_ATmega2560__;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_MEGA2560;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -86,19 +87,26 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionControl.h" />
+    <ClInclude Include="BoilingControl.h" />
     <ClInclude Include="Control.h" />
+    <ClInclude Include="Ds18x20.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="HwThermo.h" />
+    <ClInclude Include="Interval.h" />
+    <ClInclude Include="IntervalSetupMenuItem.h" />
+    <ClInclude Include="NvRam.h" />
     <ClInclude Include="hw.h" />
     <ClInclude Include="MenuControl.h" />
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="Pin.h" />
+    <ClInclude Include="RTC.h" />
+    <ClInclude Include="Sequencer.h" />
+    <ClInclude Include="StartControlMenuItem.h" />
     <ClInclude Include="__vm\.Beerworks.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Control.cpp" />
     <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="MenuControl.cpp" />
-    <ClCompile Include="MenuItem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

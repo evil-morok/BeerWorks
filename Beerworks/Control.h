@@ -12,7 +12,9 @@ typedef enum {
 	EVT_BTN_OK,
 	EVT_BTN_CL,
 	EVT_BTN_OK_LO,
-	EVT_BTN_CL_LO
+	EVT_BTN_CL_LO,
+	EVT_MENU_ENTER,
+	EVT_MENU_EXIT
 }event_type_t;
 
 typedef struct display_t {
@@ -30,12 +32,20 @@ typedef struct display_t {
 class Control
 {
 public:
-	Control(char * display, uint8_t len);
-	~Control();
-	virtual void render();
-	virtual void event(uint16_t event_type);
-private:
-	char * display;
-	uint8_t len;
+	Control(display_t * display, Control * parent = nullptr)
+	{
+		this->Display = display;
+		this->parent = parent;
+	}
+	~Control() {}
+	virtual void render() = 0;
+	virtual void event(uint16_t event_type) = 0;
+	virtual void SecondInterval() {
+
+	}
+protected:
+	Control * parent;
+	display_t * Display;
 };
+
 
