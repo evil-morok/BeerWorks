@@ -1,6 +1,6 @@
 #pragma once
 
-#define REQUEST_CYCLES_DELAY 5000
+#define REQUEST_CYCLES_DELAY 1000
 #include <OneWire.h>
 
 

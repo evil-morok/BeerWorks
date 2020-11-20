@@ -17,8 +17,8 @@ public:
 	MenuItem *child = NULL;
 
 	virtual void render() {
-		snprintf(&(Display->Lines.Line0[0]), 16, name);
-		snprintf(&(Display->Lines.Line1[0]), 16, format);
+		snprintf(&(Display->Lines.Line0[0]), 17, name);
+		snprintf(&(Display->Lines.Line1[0]), 17, format);
 	}
 
 	virtual void event(uint16_t event_type) {

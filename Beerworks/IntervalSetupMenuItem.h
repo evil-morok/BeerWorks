@@ -13,10 +13,10 @@ public:
 	void render() {
 		snprintf(&(Display->Lines.Line0[0]), 16, name);
 		if (_setTemp) {
-			snprintf(&(Display->Lines.Line1[0]), 16, "tmp:>%2.2i min: %2.2i", _interval->Temperatire, _interval->Minutes);
+			snprintf(&(Display->Lines.Line1[0]), 16, "tmp:>%2.2i min: %2.2i", _interval->Temperature, _interval->Minutes);
 		}
 		else {
-			snprintf(&(Display->Lines.Line1[0]), 16, "tmp: %2.2i min:>%2.2i", _interval->Temperatire, _interval->Minutes);
+			snprintf(&(Display->Lines.Line1[0]), 16, "tmp: %2.2i min:>%2.2i", _interval->Temperature, _interval->Minutes);
 		}
 	}
 

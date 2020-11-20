@@ -4,6 +4,7 @@
 #include "MenuControl.h"
 #include "StartControlMenuItem.h"
 #include "BoilingControl.h"
+#include "BrewingControl.h"
 
 Environment env;
 
@@ -41,68 +42,72 @@ void Environment::Start()
 	Serial.begin(115200);
 	Serial.println("Start");
 
-	Interval *intervals[3 * 5];
+	Intervals[0] = new Interval(0, 40, 30, 100, 100);
+	Intervals[1] = new Interval(1, 45, 15, 100, 100);
+	Intervals[2] = new Interval(2, 57, 30, 50, 100);
+	Intervals[3] = new Interval(3, 66, 90, 50, 100);
+	Intervals[4] = new Interval(4, 77, 15, 100, 100);
 
-	intervals[0] = new Interval(0, 40, 30);
-	intervals[1] = new Interval(1, 49, 1);
-	intervals[2] = new Interval(2, 57, 15);
-	intervals[3] = new Interval(3, 70, 60);
-	intervals[4] = new Interval(4, 78, 15);
+	Intervals[5] = new Interval(5, 40, 30, 100, 100);
+	Intervals[6] = new Interval(6, 45, 15, 100, 100);
+	Intervals[7] = new Interval(7, 57, 30, 50, 100);
+	Intervals[8] = new Interval(8, 70, 30, 50, 100);
+	Intervals[9] = new Interval(9, 77, 15, 100, 100);
 
-	intervals[5] = new Interval(5, 38, 15);
-	intervals[6] = new Interval(6, 38, 15);
-	intervals[7] = new Interval(7, 38, 15);
-	intervals[8] = new Interval(8, 38, 15);
-	intervals[9] = new Interval(9, 38, 15);
-
-	intervals[10] = new Interval(10, 38, 15);
-	intervals[11] = new Interval(11, 38, 15);
-	intervals[12] = new Interval(12, 38, 15);
-	intervals[13] = new Interval(13, 38, 15);
-	intervals[14] = new Interval(14, 38, 15);
+	Intervals[10] = new Interval(10, 35, 1, 100, 100);
+	Intervals[11] = new Interval(11, 35, 40, 100, 100);
+	Intervals[12] = new Interval(12, 52, 80, 100, 100);
+	Intervals[13] = new Interval(13, 66, 70, 50, 100);
+	Intervals[14] = new Interval(14, 75, 15, 100, 100);
 
 	if (!Interval::CheckEpromValid()) {
 		for (int i = 0; i < 15; i++) {
-			intervals[i]->SetDefault();
+			Intervals[i]->SetDefault();
 		}
 		Interval::UpdateEpromValid();
 	}
+
+	// Menu control
 	auto mc = new MenuControl(Display.Buffer);
-
-	auto item0 = new MenuItem(Display.Buffer, "1. Brewing", _TempStr, mc);
-	auto item01 = new MenuItem(Display.Buffer, "1.1 Preset 1", "", mc);
-	auto item02 = new MenuItem(Display.Buffer, "1.2 Preset 2", "", mc);
-	auto item03 = new MenuItem(Display.Buffer, "1.3 Preset 3", "", mc);
-
+	// Boiling control. 
 	auto boilingControl = new BoilingControl(Display.Buffer, mc, &Root, &_Temperature);
+	auto brewingControl = new BrewingControl(Display.Buffer, mc, &Root, &_Temperature, &_TempIsValid);
+
+	// Menu items
+	auto item0 = new MenuItem(Display.Buffer, "1. Brewing", _TempStr, mc);
+	auto item01 = new StartControlMenuItem(Display.Buffer, "1.1 Preset 1", "(Dry)", mc, brewingControl, &this->Root, &Intervals[0]);
+	auto item02 = new StartControlMenuItem(Display.Buffer, "1.2 Preset 2", "(Sweet)", mc, brewingControl, &this->Root, &Intervals[5]);
+	auto item03 = new StartControlMenuItem(Display.Buffer, "1.3 Preset 3", "(Classic)", mc, brewingControl, &this->Root, &Intervals[10]);
+
 	auto item1 = new StartControlMenuItem(Display.Buffer, "2. Boiling", _TempStr, mc, boilingControl, &this->Root);
 
 	auto item2 = new MenuItem(Display.Buffer, "3. Settings", "", mc);
-	auto item21 = new MenuItem(Display.Buffer, "3.1 Preset 1", "", mc);
-	auto item211 = new IntervalSetupMenuItem(Display.Buffer, "3.1.1 Int 1", "", intervals[0], mc);
-	auto item212 = new IntervalSetupMenuItem(Display.Buffer, "3.1.2 Int 2", "", intervals[1], mc);
-	auto item213 = new IntervalSetupMenuItem(Display.Buffer, "3.1.3 Int 3", "", intervals[2], mc);
-	auto item214 = new IntervalSetupMenuItem(Display.Buffer, "3.1.4 Int 4", "", intervals[3], mc);
-	auto item215 = new IntervalSetupMenuItem(Display.Buffer, "3.1.5 Int 5", "", intervals[4], mc);
+	auto item21 = new MenuItem(Display.Buffer, "3.1 Preset 1", "(Dry)", mc);
+	auto item211 = new IntervalSetupMenuItem(Display.Buffer, "3.1.1 Int 1", "", Intervals[0], mc);
+	auto item212 = new IntervalSetupMenuItem(Display.Buffer, "3.1.2 Int 2", "", Intervals[1], mc);
+	auto item213 = new IntervalSetupMenuItem(Display.Buffer, "3.1.3 Int 3", "", Intervals[2], mc);
+	auto item214 = new IntervalSetupMenuItem(Display.Buffer, "3.1.4 Int 4", "", Intervals[3], mc);
+	auto item215 = new IntervalSetupMenuItem(Display.Buffer, "3.1.5 Int 5", "", Intervals[4], mc);
 
-	auto item22 = new MenuItem(Display.Buffer, "3.2 Preset 2", "", mc);
-	auto item221 = new IntervalSetupMenuItem(Display.Buffer, "3.2.1 Int 1", "", intervals[5], mc);
-	auto item222 = new IntervalSetupMenuItem(Display.Buffer, "3.2.2 Int 2", "", intervals[6], mc);
-	auto item223 = new IntervalSetupMenuItem(Display.Buffer, "3.2.3 Int 3", "", intervals[7], mc);
-	auto item224 = new IntervalSetupMenuItem(Display.Buffer, "3.2.4 Int 4", "", intervals[8], mc);
-	auto item225 = new IntervalSetupMenuItem(Display.Buffer, "3.2.5 Int 5", "", intervals[9], mc);
+	auto item22 = new MenuItem(Display.Buffer, "3.2 Preset 2", "(Sweet)", mc);
+	auto item221 = new IntervalSetupMenuItem(Display.Buffer, "3.2.1 Int 1", "", Intervals[5], mc);
+	auto item222 = new IntervalSetupMenuItem(Display.Buffer, "3.2.2 Int 2", "", Intervals[6], mc);
+	auto item223 = new IntervalSetupMenuItem(Display.Buffer, "3.2.3 Int 3", "", Intervals[7], mc);
+	auto item224 = new IntervalSetupMenuItem(Display.Buffer, "3.2.4 Int 4", "", Intervals[8], mc);
+	auto item225 = new IntervalSetupMenuItem(Display.Buffer, "3.2.5 Int 5", "", Intervals[9], mc);
 
-	auto item23 = new MenuItem(Display.Buffer, "3.3 Preset 3", "", mc);
-	auto item231 = new IntervalSetupMenuItem(Display.Buffer, "3.3.1 Int 1", "", intervals[10], mc);
-	auto item232 = new IntervalSetupMenuItem(Display.Buffer, "3.3.2 Int 2", "", intervals[11], mc);
-	auto item233 = new IntervalSetupMenuItem(Display.Buffer, "3.3.3 Int 3", "", intervals[12], mc);
-	auto item234 = new IntervalSetupMenuItem(Display.Buffer, "3.3.4 Int 4", "", intervals[13], mc);
-	auto item235 = new IntervalSetupMenuItem(Display.Buffer, "3.3.5 Int 5", "", intervals[14], mc);
+	auto item23 = new MenuItem(Display.Buffer, "3.3 Preset 3", "(Classic)", mc);
+	auto item231 = new IntervalSetupMenuItem(Display.Buffer, "3.3.1 Int 1", "", Intervals[10], mc);
+	auto item232 = new IntervalSetupMenuItem(Display.Buffer, "3.3.2 Int 2", "", Intervals[11], mc);
+	auto item233 = new IntervalSetupMenuItem(Display.Buffer, "3.3.3 Int 3", "", Intervals[12], mc);
+	auto item234 = new IntervalSetupMenuItem(Display.Buffer, "3.3.4 Int 4", "", Intervals[13], mc);
+	auto item235 = new IntervalSetupMenuItem(Display.Buffer, "3.3.5 Int 5", "", Intervals[14], mc);
 
 	auto item3 = new MenuItem(Display.Buffer, "4. Thermostat", "", mc);
 	auto item31 = new MenuItem(Display.Buffer, "4.1 Cool", "", mc);
 	auto item32 = new MenuItem(Display.Buffer, "4.2 Heat", "", mc);
 
+	// Describe menu structure
 	item0->setNext(item1); {
 		item0->child = item01;
 		item01->setNext(item02);
@@ -147,8 +152,10 @@ void Environment::Start()
 
 	mc->MenuItem = item0;
 
+	// Set root control to MenuControl
 	this->Root = mc;
 
+	// Init perepherals
 	_Rtc = new RtcType(this, &Environment::_OnSecondInterval);
 	_ThermalSensor = new TermalSensorType();
 }
@@ -156,7 +163,13 @@ void Environment::Start()
 void Environment::_OnSecondInterval() {
 	this->Root->SecondInterval();
 	if (_TempIsValid) {
-		Serial.println(_Temperature);
+		Serial.print("$");
+		Serial.print(thermo::GetCurrentPower());
+		Serial.print(" ");
+		Serial.print(thermo::GetTargetTemperature());
+		Serial.print(" ");
+		Serial.print(_Temperature);
+		Serial.println(";");
 	}
 }
 
@@ -267,11 +280,19 @@ unsigned int Environment::Hash(const char * str)
 
 void Environment::display_redraw()
 {
-	lcd->clear();
+	//lcd->clear();
+	char l1[17] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 0x00 };
+	char l2[17] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 0x00 };
+	for (int i = 0; i < 17 && Display.Lines.Line0[i] != 0; i++) {
+		l1[i] = Display.Lines.Line0[i];
+	}
+	for (int i = 0; i < 17 && Display.Lines.Line1[i] != 0; i++) {
+		l2[i] = Display.Lines.Line1[i];
+	}
 	lcd->setCursor(0, 0);
-	lcd->print(Display.Lines.Line0);
+	lcd->print(l1);
 	lcd->setCursor(0, 1);
-	lcd->print(Display.Lines.Line1);
+	lcd->print(l2);
 }
 
 void Environment::rising_event(event_type_t event_type)

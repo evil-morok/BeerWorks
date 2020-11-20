@@ -8,23 +8,26 @@
 #include "Ds18x20.h"
 #include "RTC.h"
 #include "IntervalSetupMenuItem.h"
+#include "HwThermo.h"
 
-#define DEBUGBTNS
+//#define DEBUGBTNS
 
 
-#define LONG_PRESS_CYCLES 10000
+#define LONG_PRESS_CYCLES 5000
 #define DEBOUNCE_FILTER_CYCLES 200
 
 
 class Environment
 {
 public:
+	typedef Thermo<Hw::Relay> thermo;
 	void Start();
 	void Log(String line);
 	void Main();
 	void Redraw(bool force);
 	display_t Display;
 	Control *Root;
+	Interval *Intervals[3 * 5];
 	unsigned int Environment::Hash(const char * str);
 private:
 	typedef Ds18x20<Hw::Ds18x20> TermalSensorType;

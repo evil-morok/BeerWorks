@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include "Interval.h"
 
 typedef enum {
 	EVT_BTN_UP,
@@ -28,7 +29,6 @@ typedef struct display_t {
 }display_t;
 
 #define _display(col, row, ...) snprintf(&(Display->Lines.Line##row[col]), 16 - col, __VA_ARGS__)
-
 class Control
 {
 public:
@@ -40,9 +40,8 @@ public:
 	~Control() {}
 	virtual void render() = 0;
 	virtual void event(uint16_t event_type) = 0;
-	virtual void SecondInterval() {
-
-	}
+	virtual void SecondInterval() {}
+	virtual void SetParam(void * param) {}
 protected:
 	Control * parent;
 	display_t * Display;
