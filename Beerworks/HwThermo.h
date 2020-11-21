@@ -1,7 +1,7 @@
 #pragma once
 
 
-#define D_T_TICKS 30
+#define D_T_TICKS 60
 #define LEMP_LAG_SEC 120
 
 template <class Pin>

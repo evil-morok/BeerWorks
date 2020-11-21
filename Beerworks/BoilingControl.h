@@ -27,7 +27,8 @@ public:
 		}
 		char _ctStr[5];
 		char _ttStr[5];
-		dtostrf(*_temperature, 3, 1, _ctStr);
+		float tt = *_temperature <= 99 ? *_temperature : 99;
+		dtostrf(tt, 3, 1, _ctStr);
 		dtostrf(_TargetTemperature, 3, 1, _ttStr);
 		_currentPower = thermo::GetCurrentPower();
 		snprintf(&(Display->Lines.Line0[0]), 17, "m:%3i%% %3i%% %s", _maxPower, _currentPower, str);
@@ -61,7 +62,7 @@ public:
 					EEPROM.put(BOILING_MAXPOWER, _maxPower);
 					EEPROM.write(BOILING_OFFSET, BOILING_EEPROM_MAGIC);
 				}
-				thermo::SetTemperature(200);
+				thermo::SetTemperature(100);
 				thermo::SetMaxPower(_maxPower);
 			}
 			break;
